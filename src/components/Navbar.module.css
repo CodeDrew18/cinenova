@@ -1,0 +1,176 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: rgba(10, 10, 11, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoGroup {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--foreground);
+}
+
+.logo span {
+  color: var(--primary);
+}
+
+.desktopLinks {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navLink {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.3s ease;
+}
+
+.navLink:hover, .navLink.active {
+  color: var(--foreground);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.searchBar {
+  display: flex;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  align-items: center;
+}
+
+.searchBar input {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  width: 150px;
+  transition: width 0.3s ease;
+}
+
+.searchBar input:focus {
+  width: 250px;
+}
+
+.searchBar button {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+}
+
+.loginBtn {
+  background: var(--primary);
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: opacity 0.3s;
+}
+
+.loginBtn:hover {
+  opacity: 0.8;
+}
+
+.iconBtn {
+  color: var(--text-muted);
+  transition: color 0.3s;
+}
+
+.iconBtn:hover {
+  color: var(--primary);
+}
+
+.mobileMenuBtn {
+  display: none;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--background);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 999;
+}
+
+.mobileNavLink {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.mobileSearch {
+  display: flex;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+}
+
+.mobileSearch input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+}
+
+.mobileLoginBtn {
+  margin-top: 1rem;
+  background: var(--primary);
+  padding: 1rem;
+  text-align: center;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .desktopLinks, .searchBar, .userProfile, .loginBtn {
+    display: none;
+  }
+  
+  .mobileMenuBtn {
+    display: block;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+}
