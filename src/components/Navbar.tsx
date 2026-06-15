@@ -51,11 +51,12 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 w-full z-[100] bg-neutral-950/90 backdrop-blur-xl border-b border-white/5 h-20">
+    <nav className="fixed top-0 w-full z-[100] bg-neutral-950/60 backdrop-blur-2xl border-b border-white/5 h-20 transition-all duration-300">
       <div className="max-w-[1400px] mx-auto px-6 h-full flex items-center justify-between">
         <div className="flex items-center gap-12">
-          <Link href="/" className="text-3xl font-black tracking-tighter text-red-600 italic hover:scale-105 transition-transform">
+          <Link href="/" className="text-3xl font-black tracking-[-0.05em] text-red-600 italic hover:scale-105 transition-transform group">
             CINE<span className="text-white">NOVA</span>
+            <div className="h-0.5 w-0 group-hover:w-full bg-red-600 transition-all duration-300" />
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-400">
@@ -63,16 +64,17 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className="hover:text-white transition-colors"
+                className="hover:text-white transition-colors relative group"
               >
                 {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-red-600 transition-all group-hover:w-full" />
               </Link>
             ))}
           </div>
         </div>
 
         <div className="flex items-center gap-6">
-          <form onSubmit={handleSearch} className="hidden lg:flex items-center bg-neutral-900 rounded-full px-4 py-1.5 border border-white/5 focus-within:border-red-600/50 transition-all">
+          <form onSubmit={handleSearch} className="hidden lg:flex items-center bg-neutral-950/80 rounded-full px-5 py-2 border border-white/10 focus-within:border-red-600 transition-all shadow-inner">
             <select 
               value={searchType}
               onChange={(e) => setSearchType(e.target.value)}

@@ -15,10 +15,10 @@ export default async function MoviesPage() {
         <h1 className="text-6xl font-black tracking-tighter text-white uppercase italic">MOVIES</h1>
       </div>
       
-      <MediaRow title="Popular Now" items={popular.results} />
-      <MediaRow title="Adrenaline Rush" items={action.results} />
-      <MediaRow title="Laugh Out Loud" items={comedy.results} />
-      <MediaRow title="Midnight Screams" items={horror.results} />
+      <MediaRow title="Popular Now" items={popular.results} type="movie" />
+      <MediaRow title="Adrenaline Rush" items={action.results} type="movie" />
+      <MediaRow title="Laugh Out Loud" items={comedy.results} type="movie" />
+      <MediaRow title="Midnight Screams" items={horror.results} type="movie" />
     </div>
   );
 }
