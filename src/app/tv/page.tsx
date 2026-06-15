@@ -18,10 +18,10 @@ export default async function TVShowsPage() {
         <p className="text-neutral-500 mt-3 font-bold tracking-[0.4em] uppercase text-xs">Premium Global Series</p>
       </div>
       
-      <MediaRow title="Trending Series" items={popular.results} />
-      <MediaRow title="Gripping Dramas" items={drama.results} />
-      <MediaRow title="Other Worlds" items={sciFi.results} />
-      <MediaRow title="Unscripted" items={reality.results} />
+      <MediaRow title="Trending Series" items={popular.results} type="tv" />
+      <MediaRow title="Gripping Dramas" items={drama.results} type="tv" />
+      <MediaRow title="Other Worlds" items={sciFi.results} type="tv" />
+      <MediaRow title="Unscripted" items={reality.results} type="tv" />
     </div>
   );
 }

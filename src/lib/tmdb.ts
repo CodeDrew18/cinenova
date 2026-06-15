@@ -52,6 +52,12 @@ export const tmdbService = {
 
   getGenres: (type: 'movie' | 'tv') => 
     fetchTMDB<{ genres: Genre[] }>(`/genre/${type}/list`),
+
+  discover: (type: 'movie' | 'tv', params: Record<string, string>) =>
+    fetchTMDB<TMDBResponse<any>>(`/discover/${type}`, params),
+
+  getVideos: (id: number, type: 'movie' | 'tv') =>
+    fetchTMDB<any>(`/${type}/${id}/videos`),
 };
 
 export const getImageUrl = (path: string) => path ? `${IMAGE_BASE_URL}${path}` : '/placeholder.jpg';

@@ -11,8 +11,8 @@ export default async function AnimePage() {
         <p className="text-neutral-500 mt-2 font-bold tracking-widest uppercase text-xs pl-1">Japanese Animation Excellence</p>
       </div>
       
-      <MediaRow title="Recently Added" items={anime.results} />
-      <MediaRow title="All-Time Classics" items={anime.results.slice().reverse()} />
+      <MediaRow title="Recently Added" items={anime.results} type="tv" />
+      <MediaRow title="All-Time Classics" items={anime.results.slice().reverse()} type="tv" />
     </div>
   );
 }

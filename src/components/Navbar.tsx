@@ -11,6 +11,7 @@ const Navbar = () => {
   const [user, setUser] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchType, setSearchType] = useState('multi');
+  const pathname = usePathname(); // Get the current path
   const router = useRouter();
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', href: '/', icon: <Film size={18} /> },
+    { name: 'Discover', href: '/discovers', icon: <Search size={18} /> },
     { name: 'Movies', href: '/movies', icon: <Film size={18} /> },
     { name: 'TV Shows', href: '/tv', icon: <Tv size={18} /> },
     { name: 'Anime', href: '/anime', icon: <Play size={18} /> },
@@ -64,10 +66,11 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className="hover:text-white transition-colors relative group"
+                className={`hover:text-white transition-colors relative group ${pathname === link.href ? 'text-white' : 'text-neutral-400'}`}
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-red-600 transition-all group-hover:w-full" />
+                {/* Highlight indicator */}
+                <span className={`absolute -bottom-1 left-0 h-[1px] bg-red-600 transition-all ${pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'}`} />
               </Link>
             ))}
           </div>
@@ -101,7 +104,7 @@ const Navbar = () => {
               <LogOut size={20} />
             </button>
           ) : (
-            <Link href="/login" className="text-[11px] font-black uppercase tracking-widest bg-red-600 px-6 py-2 rounded-sm hover:bg-red-700 transition-all">
+            <Link href="/login" className="text-[11px] font-black uppercase tracking-widest bg-red-600 px-6 py-2 rounded-sm hover:bg-red-700 transition-all shadow-lg shadow-red-600/30">
               LOGIN
             </Link>
           )}
@@ -118,14 +121,14 @@ const Navbar = () => {
             <Link
               key={link.href}
               href={link.href}
-              className="text-2xl font-black italic uppercase tracking-tighter"
+              className={`text-2xl font-black italic uppercase tracking-tighter ${pathname === link.href ? 'text-red-600' : 'text-white'}`}
               onClick={() => setIsOpen(false)}
             >
               {link.name}
             </Link>
           ))}
           {!user && (
-            <Link href="/login" className="w-full text-center text-[11px] font-black uppercase tracking-widest bg-red-600 px-6 py-4 rounded-sm hover:bg-red-700 transition-all" onClick={() => setIsOpen(false)}>
+            <Link href="/login" className="w-full text-center text-[11px] font-black uppercase tracking-widest bg-red-600 px-6 py-4 rounded-sm hover:bg-red-700 transition-all shadow-lg shadow-red-600/30" onClick={() => setIsOpen(false)}>
               Login
             </Link>
           )}
