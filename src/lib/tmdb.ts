@@ -60,34 +60,119 @@ async function fetchTMDB<T>(endpoint: string, params: Record<string, QueryValue>
   }
 }
 
+// export const tmdbService = {
+//   getTrending: (type: 'all' | MediaType = 'all') =>
+//     fetchTMDB<TMDBResponse<MediaItem>>(`/trending/${type === 'all' ? 'all' : type}/day`),
+
+//   getMovies: (category: 'popular' | 'top_rated' | 'now_playing' = 'popular') =>
+//     fetchTMDB<TMDBResponse<Movie>>(`/movie/${category}`),
+
+//   getTVShows: (category: 'popular' | 'top_rated' | 'on_the_air' = 'popular') =>
+//     fetchTMDB<TMDBResponse<TVShow>>(`/tv/${category}`),
+
+//   getAnime: () =>
+//     fetchTMDB<TMDBResponse<TVShow>>('/discover/tv', {
+//       with_genres: '16',
+//       with_original_language: 'ja',
+//       sort_by: 'popularity.desc',
+//     }),
+
+//   search: (query: string) =>
+//     fetchTMDB<TMDBResponse<MediaItem>>('/search/multi', { query }),
+
+//   discover: (type: MediaType, filters: TMDBDiscoverFilters = {}) =>
+//     fetchTMDB<TMDBResponse<MediaItem>>(`/discover/${type}`, filters),
+
+//   getByGenre: (type: MediaType, genreId: string) =>
+//     fetchTMDB<TMDBResponse<MediaItem>>(`/discover/${type}`, {
+//       with_genres: genreId,
+//       sort_by: 'popularity.desc',
+//     }),
+
+//   getDetails: (type: MediaType, id: string) =>
+//     fetchTMDB<MediaDetails>(`/${type}/${id}`, {
+//       append_to_response: 'videos,recommendations',
+//     }),
+
+//   getVideos: (id: number, type: MediaType) =>
+//     fetchTMDB<VideoResponse>(`/${type}/${id}/videos`),
+
+//   getSeasonDetails: (id: string, season: number) =>
+//     fetchTMDB<SeasonDetails>(`/tv/${id}/season/${season}`),
+
+//   getEpisodeDetails: (id: string, season: number, episode: number) =>
+//     fetchTMDB<EpisodeDetails>(`/tv/${id}/season/${season}/episode/${episode}`),
+// };
+
+
 export const tmdbService = {
-  getTrending: (type: 'all' | MediaType = 'all') =>
-    fetchTMDB<TMDBResponse<MediaItem>>(`/trending/${type === 'all' ? 'all' : type}/day`),
+  getTrending: (
+    type: 'all' | MediaType = 'all',
+    page = 1
+  ) =>
+    fetchTMDB<TMDBResponse<MediaItem>>(
+      `/trending/${type === 'all' ? 'all' : type}/day`,
+      { page }
+    ),
 
-  getMovies: (category: 'popular' | 'top_rated' | 'now_playing' = 'popular') =>
-    fetchTMDB<TMDBResponse<Movie>>(`/movie/${category}`),
+  getMovies: (
+    category: 'popular' | 'top_rated' | 'now_playing' = 'popular',
+    page = 1
+  ) =>
+    fetchTMDB<TMDBResponse<Movie>>(
+      `/movie/${category}`,
+      { page }
+    ),
 
-  getTVShows: (category: 'popular' | 'top_rated' | 'on_the_air' = 'popular') =>
-    fetchTMDB<TMDBResponse<TVShow>>(`/tv/${category}`),
+  getTVShows: (
+    category: 'popular' | 'top_rated' | 'on_the_air' = 'popular',
+    page = 1
+  ) =>
+    fetchTMDB<TMDBResponse<TVShow>>(
+      `/tv/${category}`,
+      { page }
+    ),
 
-  getAnime: () =>
+  getAnime: (page = 1) =>
     fetchTMDB<TMDBResponse<TVShow>>('/discover/tv', {
       with_genres: '16',
       with_original_language: 'ja',
       sort_by: 'popularity.desc',
+      page,
     }),
 
-  search: (query: string) =>
-    fetchTMDB<TMDBResponse<MediaItem>>('/search/multi', { query }),
-
-  discover: (type: MediaType, filters: TMDBDiscoverFilters = {}) =>
-    fetchTMDB<TMDBResponse<MediaItem>>(`/discover/${type}`, filters),
-
-  getByGenre: (type: MediaType, genreId: string) =>
-    fetchTMDB<TMDBResponse<MediaItem>>(`/discover/${type}`, {
-      with_genres: genreId,
-      sort_by: 'popularity.desc',
+  search: (query: string, page = 1) =>
+    fetchTMDB<TMDBResponse<MediaItem>>('/search/multi', {
+      query,
+      page,
     }),
+
+  discover: (
+    type: MediaType,
+    filters: TMDBDiscoverFilters = {},
+    page = 1
+  ) =>
+    fetchTMDB<TMDBResponse<MediaItem>>(
+      `/discover/${type}`,
+      {
+        ...filters,
+        page,
+      }
+    ),
+
+  getByGenre: (
+    type: MediaType,
+    genreId: string,
+    page = 1
+  ) =>
+    fetchTMDB<TMDBResponse<MediaItem>>(
+      `/discover/${type}`,
+      {
+        with_genres: genreId,
+        sort_by: 'popularity.desc',
+        page,
+      }
+    ),
 
   getDetails: (type: MediaType, id: string) =>
     fetchTMDB<MediaDetails>(`/${type}/${id}`, {
@@ -100,6 +185,12 @@ export const tmdbService = {
   getSeasonDetails: (id: string, season: number) =>
     fetchTMDB<SeasonDetails>(`/tv/${id}/season/${season}`),
 
-  getEpisodeDetails: (id: string, season: number, episode: number) =>
-    fetchTMDB<EpisodeDetails>(`/tv/${id}/season/${season}/episode/${episode}`),
+  getEpisodeDetails: (
+    id: string,
+    season: number,
+    episode: number
+  ) =>
+    fetchTMDB<EpisodeDetails>(
+      `/tv/${id}/season/${season}/episode/${episode}`
+    ),
 };
