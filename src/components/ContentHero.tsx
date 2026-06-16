@@ -56,11 +56,11 @@ export default function ContentHero({ details, trailer, contentType, heroVideoUr
         </div>
       )}
 
-      <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-neutral-950 via-white/50 dark:via-neutral-950/40 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-r from-white dark:from-neutral-950 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-neutral-50/60 dark:from-neutral-950 via-neutral-50/30 dark:via-neutral-950/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-neutral-50/60 dark:from-neutral-950 via-transparent to-transparent" />
 
       <div className="absolute bottom-16 left-4 md:left-16 max-w-4xl space-y-6 z-20">
-        <div className="flex flex-wrap items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em]">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[10px] font-black uppercase tracking-[0.2em]">
           <span className="bg-red-600 text-white px-3 py-1 rounded-sm italic">CineNova Originals</span>
           <span className="flex items-center gap-1 text-yellow-500">
             <Star size={14} fill="currentColor" /> {rating}
@@ -69,7 +69,7 @@ export default function ContentHero({ details, trailer, contentType, heroVideoUr
           {runtime && <span className="text-neutral-600 dark:text-neutral-400">{runtime} MIN</span>}
           <span className="text-neutral-400 dark:text-neutral-500 border border-neutral-300 dark:border-neutral-800 px-2 py-0.5 rounded uppercase">{contentType}</span>
         </div>
-        <h1 className="text-5xl md:text-8xl font-black tracking-tighter text-neutral-950 dark:text-white uppercase italic drop-shadow-2xl leading-[0.9]">{title}</h1>
+        <h1 className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter text-neutral-950 dark:text-white uppercase italic drop-shadow-2xl leading-[0.9]">{title}</h1>
         <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-lg max-w-2xl font-medium leading-relaxed line-clamp-4">{details.overview}</p>
         <div className="flex items-center gap-4 pt-4">
           <VideoPlayer videoUrl={heroVideoUrl} />

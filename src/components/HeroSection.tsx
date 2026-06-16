@@ -62,11 +62,11 @@ export default function HeroSection({ details, videoData, contentType }: HeroSec
         </div>
       )}
 
-      <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-neutral-950 via-white/40 dark:via-neutral-950/40 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-r from-white dark:from-neutral-950 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-neutral-50/70 dark:from-neutral-950 via-neutral-50/30 dark:via-neutral-950/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-neutral-50/70 dark:from-neutral-950 via-transparent to-transparent" />
 
       <div className="absolute bottom-20 left-4 md:left-16 max-w-4xl space-y-6 z-20">
-        <div className="flex flex-wrap items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em]">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[10px] font-black uppercase tracking-[0.2em]">
           <span className="bg-red-600 text-white px-3 py-1 rounded-sm italic shadow-lg shadow-red-600/20">
             CineNova Exclusive
           </span>
@@ -80,7 +80,7 @@ export default function HeroSection({ details, videoData, contentType }: HeroSec
           </span>
         </div>
 
-        <h1 className="text-6xl md:text-9xl font-black tracking-tighter text-neutral-950 dark:text-white uppercase italic drop-shadow-2xl leading-[0.85]">
+        <h1 className="text-4xl sm:text-6xl md:text-9xl font-black tracking-tighter text-neutral-950 dark:text-white uppercase italic drop-shadow-2xl leading-[0.85]">
           {title}
         </h1>
 

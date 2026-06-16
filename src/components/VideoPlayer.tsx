@@ -87,7 +87,7 @@ export default function VideoPlayer({ videoKey, videoUrl }: VideoPlayerProps) {
               ) : (
                 <iframe
                   src={videoUrl}
-                  className="w-full h-full"
+                className="w-full h-full bg-black"
                   allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                   title="Video Player"
                 />

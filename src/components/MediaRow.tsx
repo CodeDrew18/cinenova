@@ -28,7 +28,7 @@ export default function MediaRow({ title, items, type, showRank }: MediaRowProps
   };
 
   return (
-    <section className="mt-8 group/row relative">
+    <section className="mt-8 group/row relative overflow-x-hidden">
       <h2 className="text-xl font-black mb-6 text-neutral-950 dark:text-white uppercase tracking-[0.3em] px-4 md:px-12 border-l-[6px] border-red-600 ml-4 md:ml-0 pl-4 italic leading-none">
         {title}
       </h2>
@@ -40,7 +40,10 @@ export default function MediaRow({ title, items, type, showRank }: MediaRowProps
         <ChevronLeft size={32} strokeWidth={3} />
       </button>
 
-      <div ref={scrollRef} className="flex gap-5 overflow-x-hidden pb-10 px-4 md:px-12 scroll-smooth">
+      <div 
+        ref={scrollRef} 
+        className="flex gap-4 md:gap-5 overflow-x-auto pb-10 px-4 md:px-12 scroll-smooth whitespace-nowrap hide-scrollbar touch-pan-x"
+      >
         {items.map((item, index) => {
           const resolvedType = item.media_type === 'movie' || item.media_type === 'tv' ? item.media_type : type ?? 'movie';
           const titleText = item.title ?? item.name ?? 'Untitled';

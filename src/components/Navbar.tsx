@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Search, Menu, X, LogOut } from 'lucide-react';
+import { Search, LogOut } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import ThemeToggle from './ThemeToggle';
+import MobileMenu from './MobileMenu';
 
 type SearchType = 'multi' | 'movie' | 'tv';
 
@@ -20,7 +21,6 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchType, setSearchType] = useState<SearchType>('multi');
@@ -50,7 +50,6 @@ const Navbar = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       router.push(`/search_results?q=${encodeURIComponent(searchQuery)}&type=${searchType}`);
-      setIsOpen(false);
     }
   };
 
@@ -61,7 +60,6 @@ const Navbar = () => {
       console.error('Sign out error', error);
     }
     setUser(null);
-    setIsOpen(false);
     router.push('/');
     router.refresh();
   };
@@ -130,33 +128,8 @@ const Navbar = () => {
           <div className="hidden md:block">
             <ThemeToggle />
           </div>
-
-          <button className="md:hidden text-neutral-950 dark:text-white" onClick={() => setIsOpen((current) => !current)}>
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <MobileMenu user={user} onLogout={handleLogout} />
         </div>
-      </div>
-
-      <div className={`md:hidden fixed inset-0 bg-neutral-950 z-[90] flex flex-col items-center justify-center gap-8 transition-transform duration-500 ${isOpen ? 'translate-y-0' : '-translate-y-full'}`}>
-        {navLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={`text-2xl font-black italic uppercase tracking-tighter ${pathname === link.href ? 'text-red-600' : 'text-white'}`}
-            onClick={() => setIsOpen(false)}
-          >
-            {link.name}
-          </Link>
-        ))}
-        {!user && (
-          <Link
-            href="/login"
-            className="w-full text-center text-[11px] font-black uppercase tracking-widest bg-red-600 px-6 py-4 rounded-sm hover:bg-red-700 transition-all shadow-lg shadow-red-600/30"
-            onClick={() => setIsOpen(false)}
-          >
-            Login
-          </Link>
-        )}
       </div>
     </nav>
   );
