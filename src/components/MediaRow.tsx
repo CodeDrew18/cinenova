@@ -11,9 +11,10 @@ interface MediaRowProps {
   title: string;
   items: MediaItem[];
   type?: MediaType;
+  showRank?: boolean;
 }
 
-export default function MediaRow({ title, items, type }: MediaRowProps) {
+export default function MediaRow({ title, items, type, showRank }: MediaRowProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   if (!items || items.length === 0) return null;
@@ -40,7 +41,7 @@ export default function MediaRow({ title, items, type }: MediaRowProps) {
       </button>
 
       <div ref={scrollRef} className="flex gap-5 overflow-x-hidden pb-10 px-4 md:px-12 scroll-smooth">
-        {items.map((item) => {
+        {items.map((item, index) => {
           const resolvedType = item.media_type === 'movie' || item.media_type === 'tv' ? item.media_type : type ?? 'movie';
           const titleText = item.title ?? item.name ?? 'Untitled';
 
@@ -50,6 +51,11 @@ export default function MediaRow({ title, items, type }: MediaRowProps) {
               href={`/content?id=${item.id}&type=${resolvedType}`}
               className="min-w-[180px] md:min-w-[260px] relative aspect-[2/3] rounded-2xl overflow-hidden group bg-neutral-100 dark:bg-neutral-900 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-all duration-500 hover:scale-[1.03] hover:shadow-red-600/20 hover:ring-2 hover:ring-red-600 ring-offset-4 ring-offset-white dark:ring-offset-neutral-950 block"
             >
+              {showRank && (
+                <div className="absolute top-4 left-4 z-30 bg-red-600 text-white px-3 py-1 rounded-sm font-black italic text-[10px] shadow-xl shadow-red-600/40 flex items-center gap-1 transform -skew-x-12">
+                  TOP <span className="text-lg leading-none">{index + 1}</span>
+                </div>
+              )}
               <Image
                 src={getImageUrl(item.poster_path)}
                 alt={titleText}

@@ -13,7 +13,32 @@ export default async function AnimePage() {
   let anime = emptyResponse();
 
   try {
-    anime = await tmdbService.getAnime();
+    const [page1, page2, page3, page4, page5] = await Promise.all([
+      tmdbService.getAnime(1),
+      tmdbService.getAnime(2),
+      tmdbService.getAnime(3),
+      tmdbService.getAnime(4),
+      tmdbService.getAnime(5),
+    ]);
+
+    const merged = [
+      ...page1.results,
+      ...page2.results,
+      ...page3.results,
+      ...page4.results,
+      ...page5.results,
+    ];
+
+    // 🔥 REMOVE DUPLICATES (important)
+    const uniqueAnime = Array.from(
+      new Map(merged.map((item) => [item.id, item])).values()
+    );
+
+    anime = {
+      ...page1,
+      results: uniqueAnime,
+      total_results: uniqueAnime.length,
+    };
   } catch (error) {
     console.error('[AnimePage] Anime fetch error:', error);
   }
@@ -21,12 +46,16 @@ export default async function AnimePage() {
   return (
     <div className="pt-32 pb-20 bg-white dark:bg-neutral-950 min-h-screen transition-colors duration-300">
       <div className="px-4 md:px-12 mb-10 border-l-8 border-red-600 ml-4 md:ml-12">
-        <h1 className="text-6xl font-black tracking-tighter text-neutral-950 dark:text-white uppercase italic">ANIME</h1>
-        <p className="text-neutral-500 dark:text-neutral-400 mt-2 font-bold tracking-widest uppercase text-xs pl-1">Japanese Animation Excellence</p>
+        <h1 className="text-6xl font-black tracking-tighter text-neutral-950 dark:text-white uppercase italic">
+          ANIME
+        </h1>
+        <p className="text-neutral-500 dark:text-neutral-400 mt-2 font-bold tracking-widest uppercase text-xs pl-1">
+          Japanese Animation Excellence
+        </p>
       </div>
 
       <MediaRow title="Recently Added" items={anime.results} type="tv" />
-      <MediaRow title="All-Time Classics" items={anime.results.slice().reverse()} type="tv" />
+      <MediaRow title="All-Time Classics" items={[...anime.results].reverse()} type="tv" />
     </div>
   );
 }

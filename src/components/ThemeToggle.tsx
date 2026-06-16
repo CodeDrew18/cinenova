@@ -1,70 +1,35 @@
 'use client';
 
-import { useEffect, useSyncExternalStore } from 'react';
-import { Sun, Moon } from 'lucide-react';
-
-type ThemePreference = 'light' | 'dark';
-
-const THEME_EVENT = 'cinenova-theme-change';
-
-function getThemeSnapshot(): ThemePreference {
-  if (typeof window === 'undefined') {
-    return 'dark';
-  }
-
-  const saved = window.localStorage.getItem('theme');
-  if (saved === 'light' || saved === 'dark') {
-    return saved;
-  }
-
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
-
-function subscribe(callback: () => void) {
-  const handleStorage = () => callback();
-  const handleThemeChange = () => callback();
-
-  window.addEventListener('storage', handleStorage);
-  window.addEventListener(THEME_EVENT, handleThemeChange);
-
-  return () => {
-    window.removeEventListener('storage', handleStorage);
-    window.removeEventListener(THEME_EVENT, handleThemeChange);
-  };
-}
+import * as React from 'react';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 export default function ThemeToggle() {
-  const theme = useSyncExternalStore(subscribe, getThemeSnapshot, () => 'dark');
-  const darkMode = theme === 'dark';
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
 
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode);
-  }, [darkMode]);
+  // Avoid hydration mismatch by only rendering after mount
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  const toggleTheme = () => {
-    const nextTheme: ThemePreference = darkMode ? 'light' : 'dark';
-    window.localStorage.setItem('theme', nextTheme);
-    document.documentElement.classList.toggle('dark', nextTheme === 'dark');
-    window.dispatchEvent(new Event(THEME_EVENT));
-  };
+  if (!mounted) {
+    return (
+      <div className="p-2.5 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 w-10 h-10 opacity-50" />
+    );
+  }
 
   return (
     <button
-      onClick={toggleTheme}
-      className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-neutral-100/40 dark:bg-neutral-800/40 backdrop-blur-xl border border-black/5 dark:border-white/10 hover:border-red-600/50 transition-all duration-500 overflow-hidden"
-      aria-label="Toggle Theme"
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      className="p-2.5 rounded-full bg-white/10 dark:bg-neutral-800/40 backdrop-blur-xl text-neutral-900 dark:text-white border border-black/5 dark:border-white/10 hover:bg-white/20 dark:hover:bg-neutral-700 transition-all flex items-center justify-center shadow-sm"
+      aria-label="Toggle theme"
     >
-      <div className="relative w-6 h-6">
-        <Sun
-          className={`absolute inset-0 transition-all duration-700 ease-in-out transform ${darkMode ? 'rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100 text-yellow-500'}`}
-          size={24}
-        />
-        <Moon
-          className={`absolute inset-0 transition-all duration-700 ease-in-out transform ${!darkMode ? '-rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100 text-red-600'}`}
-          size={24}
-        />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-tr from-red-600/0 via-red-600/0 to-red-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      {theme === 'dark' ? (
+        <Sun size={20} className="text-yellow-500 fill-yellow-500/20" />
+      ) : (
+        <Moon size={20} className="text-indigo-400 fill-indigo-400/20" />
+      )}
     </button>
   );
 }

@@ -105,7 +105,7 @@ export default async function HomePage() {
           </div>
         </section>
         <div className="px-4 md:px-12 py-12 relative z-10 space-y-16 pb-40">
-          {trendingItems.length > 0 && <MediaRow title="Trending Now" items={trendingItems} />}
+          {trendingItems.length > 0 && <MediaRow title="Trending Now" items={trendingItems} showRank={true} />}
           {movieList.length > 0 && <MediaRow title="Blockbuster Movies" items={movieList} type="movie" />}
           {tvShowItems.length > 0 && <MediaRow title="Top Rated TV Series" items={tvShowItems} type="tv" />}
           {animeItems.length > 0 && <MediaRow title="Anime Collection" items={animeItems} type="tv" />}
@@ -119,7 +119,7 @@ export default async function HomePage() {
       <HeroSection details={details} contentType={featuredType} />
 
       <div className="px-4 md:px-12 py-12 relative z-10 -mt-32 space-y-16 pb-40">
-        {trendingItems.length > 0 && <MediaRow title="Trending Now" items={trendingItems} />}
+        {trendingItems.length > 0 && <MediaRow title="Trending Now" items={trendingItems} showRank={true} />}
         {movieList.length > 0 && <MediaRow title="Blockbuster Movies" items={movieList} type="movie" />}
         {tvShowItems.length > 0 && <MediaRow title="Top Rated TV Series" items={tvShowItems} type="tv" />}
         {animeItems.length > 0 && <MediaRow title="Anime Collection" items={animeItems} type="tv" />}

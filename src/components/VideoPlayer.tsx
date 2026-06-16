@@ -58,7 +58,7 @@ export default function VideoPlayer({ videoKey, videoUrl }: VideoPlayerProps) {
     <>
       <button
         onClick={openPlayer}
-        className="bg-red-600 text-white px-10 py-5 rounded-full font-black uppercase tracking-[0.2em] text-[10px] hover:bg-red-700 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-2xl shadow-red-600/30"
+        className="bg-red-600 text-white px-8 py-2.5 rounded-full font-black uppercase tracking-[0.2em] text-[10px] hover:bg-red-700 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg shadow-red-600/20"
       >
         <Play size={16} /> Start Watching
       </button>

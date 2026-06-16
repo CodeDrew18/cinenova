@@ -91,16 +91,16 @@ export default function HeroSection({ details, videoData, contentType }: HeroSec
         <div className="flex items-center gap-4 pt-4">
           <Link
             href={`/content?id=${details.id}&type=${contentType}`}
-            className="bg-red-600 text-white px-12 py-5 rounded-full font-black uppercase tracking-[0.2em] text-[10px] hover:bg-red-700 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-2xl shadow-red-600/40"
+            className="bg-red-600 text-white px-8 py-2.5 rounded-full font-black uppercase tracking-[0.2em] text-[10px] hover:bg-red-700 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg shadow-red-600/20"
           >
             <Play size={18} fill="white" className="ml-1" /> Start Watching
           </Link>
-          <button className="bg-white/10 dark:bg-neutral-800/40 backdrop-blur-xl text-neutral-900 dark:text-white px-6 py-5 rounded-full border border-black/5 dark:border-white/10 hover:bg-red-600 hover:text-white transition-all transform hover:rotate-90">
+          <button className="bg-white/10 dark:bg-neutral-800/40 backdrop-blur-xl text-neutral-900 dark:text-white p-3.5 rounded-full border border-black/5 dark:border-white/10 hover:bg-red-600 hover:text-white transition-all transform hover:rotate-90 flex items-center justify-center">
             <Plus size={20} />
           </button>
           <button
             onClick={toggleMute}
-            className="hidden md:flex bg-white/10 dark:bg-neutral-800/40 backdrop-blur-xl text-neutral-900 dark:text-white p-5 rounded-full border border-black/5 dark:border-white/10 hover:bg-neutral-700 transition-all"
+            className="hidden md:flex bg-white/10 dark:bg-neutral-800/40 backdrop-blur-xl text-neutral-900 dark:text-white p-3.5 rounded-full border border-black/5 dark:border-white/10 hover:bg-neutral-700 transition-all flex items-center justify-center"
           >
             {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
           </button>
