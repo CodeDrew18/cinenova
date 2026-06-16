@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import type { FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
@@ -17,7 +18,17 @@ export default function SignupPage() {
   const [message, setMessage] = useState('');
   const router = useRouter();
 
-  const handleSignup = async (e: React.FormEvent) => {
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+      const session = data?.session ?? null;
+      if (session) {
+        router.push('/profile');
+      }
+    })();
+  }, [router]);
+
+  const handleSignup = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (password !== confirmPassword) {
@@ -48,13 +59,13 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-neutral-950 pt-20 pb-10">
-      <div className="bg-neutral-900 p-10 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.7)] border border-white/10 max-w-md w-full space-y-8">
+    <div className="flex items-center justify-center min-h-screen bg-white dark:bg-neutral-950 pt-20 pb-10 transition-colors duration-300">
+      <div className="bg-white dark:bg-neutral-900 p-10 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.3)] dark:shadow-[0_0_50px_rgba(0,0,0,0.7)] border border-neutral-200 dark:border-white/10 max-w-md w-full space-y-8">
         <div className="text-center space-y-2">
-          <h1 className="text-5xl font-black tracking-tighter text-white uppercase italic">
+          <h1 className="text-5xl font-black tracking-tighter text-neutral-950 dark:text-white uppercase italic">
             CINE<span className="text-red-600">NOVA</span>
           </h1>
-          <p className="text-neutral-400 text-sm font-medium uppercase tracking-widest italic">Join the Experience</p>
+          <p className="text-neutral-500 dark:text-neutral-400 text-sm font-medium uppercase tracking-widest italic">Join the Experience</p>
         </div>
 
         <form onSubmit={handleSignup} className="space-y-5">
@@ -66,7 +77,7 @@ export default function SignupPage() {
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full bg-neutral-800/50 border border-white/5 rounded-xl py-4 pl-12 pr-4 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600/50 focus:ring-4 focus:ring-red-600/10 transition-all"
+                className="w-full bg-neutral-100 dark:bg-neutral-800/50 border border-neutral-200 dark:border-white/5 rounded-xl py-4 pl-12 pr-4 text-neutral-950 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-600 focus:outline-none focus:border-red-600/50 focus:ring-4 focus:ring-red-600/10 transition-all"
                 required
               />
             </div>
@@ -77,7 +88,7 @@ export default function SignupPage() {
                 placeholder="Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-neutral-800/50 border border-white/5 rounded-xl py-4 pl-12 pr-4 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600/50 focus:ring-4 focus:ring-red-600/10 transition-all"
+                className="w-full bg-neutral-100 dark:bg-neutral-800/50 border border-neutral-200 dark:border-white/5 rounded-xl py-4 pl-12 pr-4 text-neutral-950 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-600 focus:outline-none focus:border-red-600/50 focus:ring-4 focus:ring-red-600/10 transition-all"
                 required
               />
             </div>
@@ -88,13 +99,13 @@ export default function SignupPage() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-neutral-800/50 border border-white/5 rounded-xl py-4 pl-12 pr-12 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600/50 focus:ring-4 focus:ring-red-600/10 transition-all"
+                className="w-full bg-neutral-100 dark:bg-neutral-800/50 border border-neutral-200 dark:border-white/5 rounded-xl py-4 pl-12 pr-12 text-neutral-950 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-600 focus:outline-none focus:border-red-600/50 focus:ring-4 focus:ring-red-600/10 transition-all"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-950 dark:hover:text-white transition-colors"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
@@ -106,13 +117,13 @@ export default function SignupPage() {
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-neutral-800/50 border border-white/5 rounded-xl py-4 pl-12 pr-12 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600/50 focus:ring-4 focus:ring-red-600/10 transition-all"
+                className="w-full bg-neutral-100 dark:bg-neutral-800/50 border border-neutral-200 dark:border-white/5 rounded-xl py-4 pl-12 pr-12 text-neutral-950 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-600 focus:outline-none focus:border-red-600/50 focus:ring-4 focus:ring-red-600/10 transition-all"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-950 dark:hover:text-white transition-colors"
               >
                 {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
@@ -136,7 +147,7 @@ export default function SignupPage() {
 
         <div className="text-center pt-2">
           <p className="text-neutral-500 text-xs font-bold uppercase tracking-widest italic">
-            Already have an account? <Link href="/login" className="text-white hover:text-red-600 transition-colors ml-1 underline decoration-red-600/30 underline-offset-4">Login</Link>
+            Already have an account? <Link href="/login" className="text-neutral-950 dark:text-white hover:text-red-600 transition-colors ml-1 underline decoration-red-600/30 underline-offset-4">Login</Link>
           </p>
         </div>
       </div>

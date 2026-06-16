@@ -1,63 +1,105 @@
-import { Movie, TVShow, TMDBResponse, Genre } from '@/types/tmdb';
+import {
+  EpisodeDetails,
+  MediaDetails,
+  MediaItem,
+  MediaType,
+  SeasonDetails,
+  TMDBDiscoverFilters,
+  TMDBResponse,
+  TVShow,
+  VideoResponse,
+  Movie,
+} from '@/types/tmdb';
 
-const API_KEY = process.env.TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY;
-const BASE_URL = 'https://api.themoviedb.org/3';
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
+const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+const TMDB_API_KEY = process.env.TMDB_API_KEY;
 
-async function fetchTMDB<T>(endpoint: string, params: Record<string, string> = {}): Promise<T> {
-  const queryParams = new URLSearchParams({
-    api_key: API_KEY || '',
+type QueryValue = string | number | boolean | null | undefined;
+
+function buildQueryString(params: Record<string, QueryValue> = {}) {
+  const queryParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === '') {
+      return;
+    }
+    queryParams.set(key, String(value));
+  });
+  return queryParams.toString();
+}
+
+async function fetchTMDB<T>(endpoint: string, params: Record<string, QueryValue> = {}): Promise<T> {
+  if (!TMDB_API_KEY) {
+    throw new Error('TMDB_API_KEY is not set.');
+  }
+
+  const queryString = buildQueryString({
+    api_key: TMDB_API_KEY,
+    language: 'en-US',
     ...params,
   });
 
-  const response = await fetch(`${BASE_URL}${endpoint}?${queryParams}`, {
-    next: { revalidate: 3600 }, // Cache for 1 hour
+  const url = queryString ? `${TMDB_BASE_URL}${endpoint}?${queryString}` : `${TMDB_BASE_URL}${endpoint}`;
+
+  const response = await fetch(url, {
+    next: { revalidate: 1800 },
   });
 
+  const responseText = await response.text();
+
   if (!response.ok) {
-    throw new Error(`TMDB API error: ${response.statusText}`);
+    console.error(`[fetchTMDB] API error for ${endpoint}: Status ${response.status}, Response: ${responseText}`);
+    throw new Error(`TMDB API error for ${endpoint}: ${response.statusText} - ${responseText.substring(0, 200)}...`);
   }
 
-  return response.json();
+  try {
+    return JSON.parse(responseText) as T;
+  } catch (jsonError) {
+    console.error(`[fetchTMDB] JSON parsing error for ${endpoint}:`, jsonError);
+    console.error(`[fetchTMDB] Raw response text (failed to parse as JSON): ${responseText.substring(0, 500)}...`);
+    throw new Error(`TMDB API: Invalid JSON response for ${endpoint}. Raw response starts with: ${responseText.substring(0, 100)}...`);
+  }
 }
 
 export const tmdbService = {
-  getTrending: (type: 'all' | 'movie' | 'tv' = 'all') => 
-    fetchTMDB<TMDBResponse<any>>(`/trending/${type}/day`),
-  
-  getMovies: (category: 'popular' | 'top_rated' | 'now_playing' = 'popular') => 
+  getTrending: (type: 'all' | MediaType = 'all') =>
+    fetchTMDB<TMDBResponse<MediaItem>>(`/trending/${type === 'all' ? 'all' : type}/day`),
+
+  getMovies: (category: 'popular' | 'top_rated' | 'now_playing' = 'popular') =>
     fetchTMDB<TMDBResponse<Movie>>(`/movie/${category}`),
-  
-  getTVShows: (category: 'popular' | 'top_rated' | 'on_the_air' = 'popular') => 
+
+  getTVShows: (category: 'popular' | 'top_rated' | 'on_the_air' = 'popular') =>
     fetchTMDB<TMDBResponse<TVShow>>(`/tv/${category}`),
 
-  getByGenre: (type: 'movie' | 'tv', genreId: string) =>
-    fetchTMDB<TMDBResponse<any>>(`/discover/${type}`, { 
-      with_genres: genreId,
-      sort_by: 'popularity.desc'
-    }),
-
-  getAnime: () => 
+  getAnime: () =>
     fetchTMDB<TMDBResponse<TVShow>>('/discover/tv', {
-      with_genres: '16', // Animation
+      with_genres: '16',
       with_original_language: 'ja',
-      sort_by: 'popularity.desc'
+      sort_by: 'popularity.desc',
     }),
 
-  search: (query: string) => 
-    fetchTMDB<TMDBResponse<any>>('/search/multi', { query }),
+  search: (query: string) =>
+    fetchTMDB<TMDBResponse<MediaItem>>('/search/multi', { query }),
 
-  getDetails: (type: 'movie' | 'tv', id: string) => 
-    fetchTMDB<any>(`/${type}/${id}`, { append_to_response: 'videos,credits,recommendations' }),
+  discover: (type: MediaType, filters: TMDBDiscoverFilters = {}) =>
+    fetchTMDB<TMDBResponse<MediaItem>>(`/discover/${type}`, filters),
 
-  getGenres: (type: 'movie' | 'tv') => 
-    fetchTMDB<{ genres: Genre[] }>(`/genre/${type}/list`),
+  getByGenre: (type: MediaType, genreId: string) =>
+    fetchTMDB<TMDBResponse<MediaItem>>(`/discover/${type}`, {
+      with_genres: genreId,
+      sort_by: 'popularity.desc',
+    }),
 
-  discover: (type: 'movie' | 'tv', params: Record<string, string>) =>
-    fetchTMDB<TMDBResponse<any>>(`/discover/${type}`, params),
+  getDetails: (type: MediaType, id: string) =>
+    fetchTMDB<MediaDetails>(`/${type}/${id}`, {
+      append_to_response: 'videos,recommendations',
+    }),
 
-  getVideos: (id: number, type: 'movie' | 'tv') =>
-    fetchTMDB<any>(`/${type}/${id}/videos`),
+  getVideos: (id: number, type: MediaType) =>
+    fetchTMDB<VideoResponse>(`/${type}/${id}/videos`),
+
+  getSeasonDetails: (id: string, season: number) =>
+    fetchTMDB<SeasonDetails>(`/tv/${id}/season/${season}`),
+
+  getEpisodeDetails: (id: string, season: number, episode: number) =>
+    fetchTMDB<EpisodeDetails>(`/tv/${id}/season/${season}/episode/${episode}`),
 };
-
-export const getImageUrl = (path: string) => path ? `${IMAGE_BASE_URL}${path}` : '/placeholder.jpg';
