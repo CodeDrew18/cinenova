@@ -36,8 +36,12 @@ const MediaCard: React.FC<MediaCardProps> = ({ item, type }) => {
         </div>
       </div>
       <div className={styles.info}>
-        <h3 className={styles.title}>{title}</h3>
-        <p className={styles.meta}>{year} - {resolvedType === 'movie' ? 'Movie' : 'TV'}</p>
+        <h3 className={`${styles.title} font-black uppercase italic tracking-tighter text-[11px] leading-tight mb-1`}>
+          {title}
+        </h3>
+        <p className={`${styles.meta} text-[9px] font-black uppercase tracking-[0.2em] text-neutral-500 italic`}>
+          {year} • {resolvedType === 'movie' ? 'Movie' : 'TV'}
+        </p>
       </div>
     </Link>
   );

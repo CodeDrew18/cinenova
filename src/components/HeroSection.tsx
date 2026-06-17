@@ -100,7 +100,7 @@ export default function HeroSection({ details, videoData, contentType }: HeroSec
           </button>
           <button
             onClick={toggleMute}
-            className="hidden md:flex bg-white/10 dark:bg-neutral-800/40 backdrop-blur-xl text-neutral-900 dark:text-white p-3.5 rounded-full border border-black/5 dark:border-white/10 hover:bg-neutral-700 transition-all flex items-center justify-center"
+            className="flex bg-white/10 dark:bg-neutral-800/40 backdrop-blur-xl text-neutral-900 dark:text-white p-3.5 rounded-full border border-black/5 dark:border-white/10 hover:bg-neutral-700 transition-all items-center justify-center"
           >
             {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
           </button>

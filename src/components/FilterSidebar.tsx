@@ -86,9 +86,9 @@ export default function FilterSidebar() {
     <div className="w-full lg:w-80 space-y-4">
 
       {/* SHOW ME */}
-      <div className="bg-white/80 dark:bg-neutral-900/50 border border-neutral-200 dark:border-white/5 rounded-2xl overflow-hidden shadow-2xl">
-        <div className="p-5 flex items-center justify-between border-b border-neutral-200 dark:border-white/5">
-          <h3 className="font-black uppercase tracking-widest text-xs italic text-neutral-950 dark:text-white">
+      <div className="bg-neutral-100/50 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-800 rounded-3xl overflow-hidden shadow-sm">
+        <div className="p-5 flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800">
+          <h3 className="font-black uppercase tracking-widest text-[10px] italic text-neutral-950 dark:text-white">
             Show Me
           </h3>
           <ChevronDown size={16} className="text-neutral-500" />
@@ -112,7 +112,7 @@ export default function FilterSidebar() {
               </div>
 
               <span
-                className={`text-[11px] font-bold uppercase tracking-wider transition-colors ${
+                className={`text-[10px] font-black uppercase tracking-widest italic transition-colors ${
                   type === opt.value
                     ? 'text-neutral-950 dark:text-white'
                     : 'text-neutral-500 dark:text-neutral-400 group-hover:text-neutral-950 dark:group-hover:text-white'
@@ -126,9 +126,9 @@ export default function FilterSidebar() {
       </div>
 
       {/* RELEASE DATE */}
-      <div className="bg-white/80 dark:bg-neutral-900/50 border border-neutral-200 dark:border-white/5 rounded-2xl overflow-hidden">
-        <div className="p-5 flex items-center justify-between border-b border-neutral-200 dark:border-white/5">
-          <h3 className="font-black uppercase tracking-widest text-xs italic">
+      <div className="bg-neutral-100/50 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-800 rounded-3xl overflow-hidden">
+        <div className="p-5 flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800">
+          <h3 className="font-black uppercase tracking-widest text-[10px] italic">
             Release Dates
           </h3>
           <Calendar size={16} className="text-red-600" />
@@ -139,22 +139,22 @@ export default function FilterSidebar() {
             type="date"
             value={fromDate}
             onChange={(e) => setFromDate(e.target.value)}
-            className="w-full bg-white dark:bg-black/40 border rounded-lg px-3 py-2 text-[10px] font-bold"
+            className="w-full bg-white dark:bg-neutral-950/40 border-neutral-200 dark:border-neutral-800 rounded-xl px-4 py-3 text-[10px] font-black uppercase tracking-widest italic focus:ring-1 focus:ring-red-600 outline-none"
           />
 
           <input
             type="date"
             value={toDate}
             onChange={(e) => setToDate(e.target.value)}
-            className="w-full bg-white dark:bg-black/40 border rounded-lg px-3 py-2 text-[10px] font-bold"
+            className="w-full bg-white dark:bg-neutral-950/40 border-neutral-200 dark:border-neutral-800 rounded-xl px-4 py-3 text-[10px] font-black uppercase tracking-widest italic focus:ring-1 focus:ring-red-600 outline-none"
           />
         </div>
       </div>
 
       {/* GENRES */}
-      <div className="bg-white/80 dark:bg-neutral-900/50 border border-neutral-200 dark:border-white/5 rounded-2xl overflow-hidden">
-        <div className="p-5 border-b">
-          <h3 className="font-black uppercase text-xs italic">Genres</h3>
+      <div className="bg-neutral-100/50 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-800 rounded-3xl overflow-hidden">
+        <div className="p-5 border-b border-neutral-200 dark:border-neutral-800">
+          <h3 className="font-black uppercase text-[10px] italic">Genres</h3>
         </div>
 
         <div className="p-5 flex flex-wrap gap-2">
@@ -162,10 +162,10 @@ export default function FilterSidebar() {
             <button
               key={genre.id}
               onClick={() => toggleGenre(genre.id)}
-              className={`px-3 py-1.5 rounded-full border text-[10px] font-black uppercase ${
+              className={`px-4 py-2 rounded-xl border text-[9px] font-black uppercase tracking-widest italic transition-all active:scale-95 ${
                 selectedGenres.includes(genre.id)
-                  ? 'bg-red-600 text-white border-red-600'
-                  : 'text-neutral-500 border-neutral-200 dark:border-white/5'
+                  ? 'bg-red-600 text-white border-red-600 shadow-lg shadow-red-600/20'
+                  : 'text-neutral-500 border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950/40 hover:bg-neutral-50 dark:hover:bg-neutral-800'
               }`}
             >
               {genre.name}
@@ -175,9 +175,9 @@ export default function FilterSidebar() {
       </div>
 
       {/* 🌍 COUNTRY */}
-      <div className="bg-white/80 dark:bg-neutral-900/50 border border-neutral-200 dark:border-white/5 rounded-2xl overflow-hidden">
-        <div className="p-5 border-b">
-          <h3 className="font-black uppercase text-xs italic">
+      <div className="bg-neutral-100/50 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-800 rounded-3xl overflow-hidden">
+        <div className="p-5 border-b border-neutral-200 dark:border-neutral-800">
+          <h3 className="font-black uppercase text-[10px] italic">
             Country
           </h3>
         </div>
@@ -186,7 +186,7 @@ export default function FilterSidebar() {
           <select
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            className="w-full bg-white dark:bg-black/40 border rounded-lg px-3 py-2 text-[10px] font-bold"
+            className="w-full bg-white dark:bg-neutral-950/40 border-neutral-200 dark:border-neutral-800 rounded-xl px-4 py-3 text-[10px] font-black uppercase tracking-widest italic focus:ring-1 focus:ring-red-600 outline-none cursor-pointer"
           >
             <option value="">All Countries</option>
             {COUNTRIES.map((c) => (
@@ -199,9 +199,9 @@ export default function FilterSidebar() {
       </div>
 
       {/* SCORE */}
-      <div className="bg-white/80 dark:bg-neutral-900/50 border border-neutral-200 dark:border-white/5 rounded-2xl overflow-hidden">
-        <div className="p-5 flex items-center justify-between border-b">
-          <h3 className="font-black uppercase text-xs italic">
+      <div className="bg-neutral-100/50 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-800 rounded-3xl overflow-hidden">
+        <div className="p-5 flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800">
+          <h3 className="font-black uppercase text-[10px] italic">
             User Score
           </h3>
           <Star size={16} className="text-yellow-500" />
@@ -222,7 +222,7 @@ export default function FilterSidebar() {
       {/* APPLY */}
       <button
         onClick={handleApply}
-        className="w-full bg-red-600 py-4 rounded-2xl font-black uppercase tracking-[0.3em] text-xs"
+        className="w-full bg-red-600 py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] italic text-white shadow-xl shadow-red-600/30 active:scale-95 transition-all"
       >
         Apply Filters
       </button>
