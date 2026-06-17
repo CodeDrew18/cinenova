@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cinenova
+
+Cinenova is a small movie & TV discovery web app built with Next.js (App Router), TypeScript, and Supabase. It integrates The Movie Database (TMDB) for media data and includes Supabase auth with reCAPTCHA-protected login.
+
+![Cinenova preview](assets/preview.png)
 
 ## Getting Started
 
-First, run the development server:
+Prerequisites: Node.js 18+ and a package manager (npm, yarn, or pnpm).
+
+Install and run the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file in the project root with the values required for Supabase and reCAPTCHA. Typical keys:
 
-## Learn More
+- NEXT_PUBLIC_SUPABASE_URL
+- NEXT_PUBLIC_SUPABASE_ANON_KEY
+- SUPABASE_SERVICE_ROLE_KEY
+- NEXT_PUBLIC_RECAPTCHA_SITE_KEY (reCAPTCHA v3 site key)
+- RECAPTCHA_SECRET
 
-To learn more about Next.js, take a look at the following resources:
+## Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Next.js App Router + TypeScript
+- Supabase Auth and session handling
+- reCAPTCHA v3 protected login flow with attempt lockout
+- Responsive UI with mobile navigation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Development
 
-## Deploy on Vercel
+- Start dev server: `npm run dev`
+- Build for production: `npm run build`
+- Run production build: `npm start`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Preview
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The screenshot above is located at `assets/preview.png` in the repository.
+
+## Contributing
+
+Contributions are welcome — open issues or PRs on the repository.
+
+## License
+
+MIT
